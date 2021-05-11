@@ -13,9 +13,9 @@ class PersonView: UIView {
     
     // MARK: UIViews
     
-    let personImageView = UIImageView()
-    let personNameLabel = UILabel()
-    let personLocationLabel = UILabel()
+    private weak var personImageView: UIImageView!
+    private weak var personNameLabel: UILabel!
+    private weak var personLocationLabel: UILabel!
     
     override init(frame: CGRect){
         super.init(frame: frame)
@@ -26,46 +26,50 @@ class PersonView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func initialSetup(){
-        addSubview(personImageView)
-        addSubview(personNameLabel)
-        addSubview(personLocationLabel)
-        
+    private func initialSetup(){
         setupMainView()
-        
         setupPersonImageView()
         setupPersonNameLabel()
         setupPersonLocationLabel()
         setupConstraints()
     }
     
-    func setupMainView() {
+    private func setupMainView() {
         backgroundColor = UIColor(named: "DefaultBackground")
         clipsToBounds = true
         layer.cornerRadius = 14
         layer.maskedCorners = [.layerMaxXMaxYCorner]
     }
     
-    func setupPersonImageView() {
+    private func setupPersonImageView() {
+        let personImageView = UIImageView()
         personImageView.image = UIImage(named: "Carol")
         personImageView.contentMode = .scaleAspectFill
+        self.personImageView = personImageView
+        addSubview(self.personImageView)
     }
     
-    func setupPersonNameLabel() {
+    private func setupPersonNameLabel() {
+        let personNameLabel = UILabel()
         personNameLabel.font = UIFont.systemFont(ofSize: 16)
         personNameLabel.textColor = UIColor(named: "DefaultText")
         personNameLabel.text = "Carol Black"
+        self.personNameLabel = personNameLabel
+        addSubview(self.personNameLabel)
     }
     
-    func setupPersonLocationLabel() {
+    private func setupPersonLocationLabel() {
+        let personLocationLabel = UILabel()
         personLocationLabel.font = UIFont.systemFont(ofSize: 10)
         personLocationLabel.textColor = UIColor(named: "DefaultGray")
         personLocationLabel.text = "Seattle,Washington"
+        self.personLocationLabel = personLocationLabel
+        addSubview(self.personLocationLabel)
     }
     
     //MARK: Snapkit
     
-    func setupConstraints(){
+    private func setupConstraints(){
         
         personImageView.snp.makeConstraints{
             $0.bottom.equalToSuperview().offset(-30)

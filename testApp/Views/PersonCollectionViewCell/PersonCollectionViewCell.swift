@@ -10,45 +10,49 @@ import UIKit
 
 class PersonCollectionViewCell : UICollectionViewCell {
  
-    let mainView = UIView()
-    let personImageView = UIImageView()
-    let personName = UILabel()
+    private weak var mainView: UIView!
+    private weak var personImageView: UIImageView!
+    private weak var personNameLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        addSubview(mainView)
-        addSubview(personImageView)
-        addSubview(personName)
-        
         setupViews()
         setupConstraints()
     }
     
-    func setupViews() {
+    private func setupViews() {
         setupMainView()
         setupPersonImageView()
-        setupPersonName()
+        setupPersonNameLabel()
     }
     
-    func setupMainView() {
+    private func setupMainView() {
+        let mainView = UIView()
         contentView.backgroundColor = .clear
         mainView.backgroundColor = UIColor(named: "BackgroundGray")
         mainView.layer.cornerRadius = 12
+        self.mainView = mainView
+        addSubview(self.mainView)
     }
     
-    func setupPersonImageView() {
+    private func setupPersonImageView() {
+        let personImageView = UIImageView()
         personImageView.contentMode = .scaleToFill
+        self.personImageView = personImageView
+        addSubview(self.personImageView)
     }
     
-    func setupPersonName() {
-        personName.textColor = UIColor(named: "HeaderColor")
-        personName.font = UIFont.systemFont(ofSize: 12)
+    private func setupPersonNameLabel() {
+        let personNameLabel = UILabel()
+        personNameLabel.textColor = UIColor(named: "HeaderColor")
+        personNameLabel.font = UIFont.systemFont(ofSize: 12)
+        self.personNameLabel = personNameLabel
+        addSubview(self.personNameLabel)
     }
     
     //MARK: Snapkit
     
-    func setupConstraints() {
+    private func setupConstraints() {
         mainView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.bottom.equalToSuperview()
@@ -63,7 +67,7 @@ class PersonCollectionViewCell : UICollectionViewCell {
             $0.bottom.equalTo(mainView.snp.centerY)
         }
         
-        personName.snp.makeConstraints {
+        personNameLabel.snp.makeConstraints {
             $0.centerX.equalTo(mainView.snp.centerX)
             $0.bottom.equalTo(mainView.snp.bottom).offset(-20)
         }
@@ -71,7 +75,7 @@ class PersonCollectionViewCell : UICollectionViewCell {
     
     func fillInPersonCell(person: Person?) {
         personImageView.image = person?.image
-        personName.text = person?.name
+        personNameLabel.text = person?.name
     }
     
 }

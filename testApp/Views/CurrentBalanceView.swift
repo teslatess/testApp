@@ -13,9 +13,9 @@ class CurrentBalanceView: UIView {
     
     // MARK: UIViews
     
-    let balanceValueLabel = UILabel()
-    let currentBalanceLabel = UILabel()
-    let circleView = UIImageView()
+    private weak var balanceValueLabel: UILabel!
+    private weak var currentBalanceLabel: UILabel!
+    private weak var circleView: UIImageView!
     
     override init(frame: CGRect){
         super.init(frame: frame)
@@ -26,35 +26,42 @@ class CurrentBalanceView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func initialSetup(){
-        addSubview(balanceValueLabel)
-        addSubview(currentBalanceLabel)
-        addSubview(circleView)
-        
+    private func initialSetup(){
         setupCircleView()
         setupBalanceValueLabel()
         setupCurrentBalanceLabel()
         setupConstraints()
     }
     
-    func setupCircleView() {
+    private func setupCircleView() {
+        let circleView = UIImageView()
         circleView.image = UIImage(named: "AddCircle")
         circleView.contentMode = .scaleToFill
+        self.circleView = circleView
+        addSubview(self.circleView)
     }
     
-    func setupBalanceValueLabel() {
+    private func setupBalanceValueLabel() {
+        let balanceValueLabel = UILabel()
         balanceValueLabel.font = UIFont.systemFont(ofSize: 24)
         balanceValueLabel.textColor = UIColor(named: "DefaultText")
+        balanceValueLabel.text = "20,600"
+        self.balanceValueLabel = balanceValueLabel
+        addSubview(self.balanceValueLabel)
     }
     
-    func setupCurrentBalanceLabel() {
+    private func setupCurrentBalanceLabel() {
+        let currentBalanceLabel = UILabel()
         currentBalanceLabel.font = UIFont.systemFont(ofSize: 12)
         currentBalanceLabel.textColor = UIColor(named: "DefaultGray")
+        currentBalanceLabel.text = "Current balance"
+        self.currentBalanceLabel = currentBalanceLabel
+        addSubview(self.currentBalanceLabel)
     }
     
     //MARK: Snapkit
     
-    func setupConstraints(){
+    private func setupConstraints(){
         
         balanceValueLabel.snp.makeConstraints{
             $0.left.equalToSuperview().offset(25)

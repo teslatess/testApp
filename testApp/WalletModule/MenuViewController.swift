@@ -18,24 +18,18 @@ class MenuViewController: UIViewController {
     
     //MARK: UIViews
 
-    let personView = PersonView()
+    private weak var personView: PersonView!
     
-    let cancelImageView = UIImageView()
+    private weak var cancelImageView: UIImageView!
     
-    let menuTableView = UITableView()
+    private weak var menuTableView: UITableView!
     
-    let logoutView = LogoutView()
-    let versionLabel = UILabel()
+    private weak var logoutView: LogoutView!
+    private weak var versionLabel: UILabel!
     
-    var menuArray: [String?] = []
+    private var menuArray: [String?] = []
     
     override func viewDidLoad() {
-        
-        view.addSubview(personView)
-        view.addSubview(cancelImageView)
-        view.addSubview(menuTableView)
-        view.addSubview(logoutView)
-        view.addSubview(versionLabel)
         
         fillInMenuArray()
         
@@ -44,7 +38,7 @@ class MenuViewController: UIViewController {
         
     }
     
-    func fillInMenuArray() {
+    private func fillInMenuArray() {
         menuArray.append("Home")
         menuArray.append("Profile")
         menuArray.append("Accounts")
@@ -54,47 +48,70 @@ class MenuViewController: UIViewController {
         menuArray.append("Help")
     }
     
-    func setupViews() {
+    private func setupViews() {
         setupMainView()
+        setupPersonView()
         setupCancelImageView()
         setupMenuTableView()
+        setupLogoutView()
         setupVersionLabel()
     }
     
-    func setupMainView() {
+    private func setupMainView() {
         view.backgroundColor = UIColor(named: "BackgroundGray")
     }
     
-    func setupCancelImageView() {
+    private func setupPersonView() {
+        let personView = PersonView()
+        self.personView = personView
+        view.addSubview(self.personView)
+    }
+    
+    private func setupCancelImageView() {
+        let cancelImageView = UIImageView()
         cancelImageView.image = UIImage(named: "Cancel")
         cancelImageView.contentMode = .scaleToFill
         let tap = UITapGestureRecognizer(target: self, action: #selector(onCancelTapped))
         cancelImageView.addGestureRecognizer(tap)
         cancelImageView.isUserInteractionEnabled = true
+        self.cancelImageView = cancelImageView
+        view.addSubview(self.cancelImageView)
     }
     
     @objc func onCancelTapped() {
         delegate?.hideMenu()
     }
     
-    func setupMenuTableView() {
+    private func setupMenuTableView() {
+        let menuTableView = UITableView()
         menuTableView.delegate = self
         menuTableView.dataSource = self
         menuTableView.backgroundColor = .clear
         menuTableView.separatorStyle = .none
         menuTableView.isScrollEnabled = false
         menuTableView.showsVerticalScrollIndicator = false
+        self.menuTableView = menuTableView
+        view.addSubview(self.menuTableView)
     }
     
-    func setupVersionLabel() {
+    private func setupLogoutView() {
+        let logoutView = LogoutView()
+        self.logoutView = logoutView
+        view.addSubview(self.logoutView)
+    }
+    
+    private func setupVersionLabel() {
+        let versionLabel = UILabel()
         versionLabel.text = "Version 2.0.1"
         versionLabel.textColor = UIColor(named: "HeaderColor")
         versionLabel.font = UIFont.systemFont(ofSize: 10)
+        self.versionLabel = versionLabel
+        view.addSubview(self.versionLabel)
     }
     
     //MARK: Snapkit
     
-    func setupConstraints() {
+    private func setupConstraints() {
         
         personView.snp.makeConstraints {
             $0.height.equalTo(view.frame.height/6)

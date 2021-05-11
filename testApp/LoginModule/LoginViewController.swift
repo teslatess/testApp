@@ -12,17 +12,17 @@ class LoginViewContoller: UIViewController {
     
     //MARK: UIViews
     
-    let mainView = UIView()
-    let timeLabel = UILabel()
-    let weatherLabel = UILabel()
-    let dateLabel = UILabel()
-    let leftSideImageView = UIImageView()
-    let cloudImageView = UIImageView()
-    let logoImageView = UIImageView()
-    let companyLabel = UILabel()
-    let descriptionLabel = UILabel()
-    let signInButton = SampleButton()
-    let creationButton = UIButton()
+    private weak var mainView: UIView!
+    private weak var timeLabel: UILabel!
+    private weak var weatherLabel: UILabel!
+    private weak var dateLabel: UILabel!
+    private weak var leftSideImageView: UIImageView!
+    private weak var cloudImageView: UIImageView!
+    private weak var logoImageView: UIImageView!
+    private weak var companyLabel: UILabel!
+    private weak var descriptionLabel: UILabel!
+    private weak var signInButton: SampleButton!
+    private weak var creationButton: UIButton!
     
     fileprivate let loginPresenter = LoginPresenter(loginService: LoginService())
     
@@ -30,24 +30,12 @@ class LoginViewContoller: UIViewController {
         super.viewDidLoad()
         
         loginPresenter.attachView(self)
-        
-        view.addSubview(mainView)
-        mainView.addSubview(leftSideImageView)
-        mainView.addSubview(timeLabel)
-        mainView.addSubview(cloudImageView)
-        mainView.addSubview(weatherLabel)
-        mainView.addSubview(dateLabel)
-        mainView.addSubview(logoImageView)
-        mainView.addSubview(companyLabel)
-        mainView.addSubview(descriptionLabel)
-        mainView.addSubview(signInButton)
-        mainView.addSubview(creationButton)
         setupViews()
         setupConstraints()
         
     }
     
-    func setupViews() {
+    private func setupViews() {
         setupMainView()
         setupLeftSideImageView()
         setupTimeLabel()
@@ -61,19 +49,26 @@ class LoginViewContoller: UIViewController {
         setupCreationButton()
     }
     
-    func setupMainView() {
+    private func setupMainView() {
+        let mainView = UIView()
         mainView.backgroundColor = UIColor(named: "DefaultBackground")
+        self.mainView = mainView
+        view.addSubview(self.mainView)
     }
     
-    func setupLeftSideImageView() {
+    private func setupLeftSideImageView() {
+        let leftSideImageView = UIImageView()
         leftSideImageView.image = UIImage(named: "LeftSideImage")
         leftSideImageView.contentMode = .scaleAspectFill
         leftSideImageView.backgroundColor = .black
         leftSideImageView.clipsToBounds = true
         leftSideImageView.setNeedsLayout()
+        self.leftSideImageView = leftSideImageView
+        mainView.addSubview(self.leftSideImageView)
     }
     
-    func setupTimeLabel() {
+    private func setupTimeLabel() {
+        let timeLabel = UILabel()
         timeLabel.text = "06:20 PM"
         timeLabel.textColor = UIColor(named: "DefaultText")
         
@@ -82,45 +77,68 @@ class LoginViewContoller: UIViewController {
         } else {
             timeLabel.font = UIFont.systemFont(ofSize: 24)
         }
+        self.timeLabel = timeLabel
+        mainView.addSubview(self.timeLabel)
+        
     }
     
-    func setupCloudImageView() {
+    private func setupCloudImageView() {
+        let cloudImageView = UIImageView()
         cloudImageView.image = UIImage(named: "Cloud")
         cloudImageView.contentMode = .scaleToFill
+        self.cloudImageView = cloudImageView
+        mainView.addSubview(self.cloudImageView)
+        
     }
     
-    func setupWeatherLabel() {
+    private func setupWeatherLabel() {
+        let weatherLabel = UILabel()
         weatherLabel.text = "34° C"
         weatherLabel.textColor = UIColor(named: "DefaultText")
         weatherLabel.font = UIFont.systemFont(ofSize: 13)
+        self.weatherLabel = weatherLabel
+        mainView.addSubview(self.weatherLabel)
     }
     
-    func setupDateLabel() {
+    private func setupDateLabel() {
+        let dateLabel = UILabel()
         dateLabel.text = "Nov.10.2020 | Wednesday"
         dateLabel.textColor = UIColor(named: "DefaultGray")
         dateLabel.font = UIFont.systemFont(ofSize: 13)
+        self.dateLabel = dateLabel
+        mainView.addSubview(self.dateLabel)
     }
     
-    func setupLogoImageView() {
+    private func setupLogoImageView() {
+        let logoImageView = UIImageView()
         logoImageView.image = UIImage(named: "MainLogo")
         logoImageView.contentMode = .scaleToFill
+        self.logoImageView = logoImageView
+        mainView.addSubview(self.logoImageView)
     }
     
-    func setupCompanyLabel() {
+    private func setupCompanyLabel() {
+        let companyLabel = UILabel()
         companyLabel.text = "eWalle"
         companyLabel.font = UIFont.systemFont(ofSize: 28)
         companyLabel.textColor = UIColor(named: "DefaultText")
+        self.companyLabel = companyLabel
+        mainView.addSubview(self.companyLabel)
     }
     
-    func setupDescriptionLabel() {
+    private func setupDescriptionLabel() {
+        let descriptionLabel = UILabel()
         descriptionLabel.text = "Open An Account For Digital E-Wallet Solutions.Instant Payouts. \n\n Join For Free"
         descriptionLabel.textColor = UIColor(named: "DefaultGray")
         descriptionLabel.numberOfLines = 0
         descriptionLabel.font = UIFont.systemFont(ofSize: 14)
         descriptionLabel.lineBreakMode = .byWordWrapping
+        self.descriptionLabel = descriptionLabel
+        mainView.addSubview(self.descriptionLabel)
     }
     
-    func setupSignInButton() {
+    private func setupSignInButton() {
+        let signInButton = SampleButton()
         signInButton.mainLabel.text = "Sign in"
         signInButton.mainLabel.textColor = .black
         signInButton.backgroundColor = UIColor.init(named: "DefaultOrange")
@@ -128,18 +146,22 @@ class LoginViewContoller: UIViewController {
         signInButton.layer.masksToBounds = true
         signInButton.mainLabel.font = UIFont.boldSystemFont(ofSize: 16)
         signInButton.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
+        self.signInButton = signInButton
+        mainView.addSubview(self.signInButton)
     }
     
     @objc func signInButtonTapped() {
         loginPresenter.pushButtonPressed(self)
     }
     
-    func setupCreationButton() {
+    private func setupCreationButton() {
+        let creationButton = UIButton()
         creationButton.setTitle("Create an account", for: .normal)
         creationButton.setTitleColor(UIColor(named: "DefaultText"), for: .normal)
         creationButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         creationButton.addTarget(self, action: #selector(creationButtonTapped), for: .touchUpInside)
-        
+        self.creationButton = creationButton
+        mainView.addSubview(self.creationButton)
     }
     
     @objc func creationButtonTapped() {
@@ -148,7 +170,7 @@ class LoginViewContoller: UIViewController {
     
     //MARK: Snapkit
         
-    func setupConstraints() {
+    private func setupConstraints() {
         mainView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }

@@ -10,7 +10,7 @@ import SnapKit
 
 class SampleButton: UIButton {
     
-    let mainLabel = UILabel()
+    weak var mainLabel: UILabel!
     
     override init(frame: CGRect){
         super.init(frame: frame)
@@ -21,14 +21,16 @@ class SampleButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func initialSetup(){
-        addSubview(mainLabel)
+    private func initialSetup(){
+        let mainLabel = UILabel()
+        self.mainLabel = mainLabel
+        addSubview(self.mainLabel)
         setupConstraints()
     }
     
     //MARK: Snapkit
     
-    func setupConstraints(){
+    private func setupConstraints(){
         mainLabel.snp.makeConstraints{
             $0.centerX.equalToSuperview()
             $0.centerY.equalToSuperview()

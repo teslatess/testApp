@@ -10,16 +10,16 @@ import UIKit
 
 class ContainerViewController: UIViewController {
     
-    var controller: UIViewController!
-    var menuViewController: UIViewController!
+    private weak var controller: UIViewController!
+    private weak var menuViewController: UIViewController!
     
-    var isMove = false
+    private var isMove = false
     
     override func viewDidLoad() {
         configureWalletViewController()
     }
     
-    func configureWalletViewController() {
+    private func configureWalletViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let walletViewController = storyboard.instantiateViewController(withIdentifier: "WalletViewController") as! WalletViewController
         walletViewController.delegate = self
@@ -28,7 +28,7 @@ class ContainerViewController: UIViewController {
         addChild(controller)
     }
     
-    func configureMenuViewController() {
+    private func configureMenuViewController() {
         if menuViewController == nil {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let menuController = storyboard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
@@ -39,7 +39,7 @@ class ContainerViewController: UIViewController {
         }
     }
     
-    func showMenuViewController(_ shouldMove: Bool) {
+    private func showMenuViewController(_ shouldMove: Bool) {
         if shouldMove {
             UIView.animate(withDuration: 0.5,
                            delay: 0,

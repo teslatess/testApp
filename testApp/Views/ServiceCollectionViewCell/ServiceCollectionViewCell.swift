@@ -10,62 +10,68 @@ import UIKit
 
 class ServiceCollectionViewCell: UICollectionViewCell {
     
-    let mainView = UIView()
-    let serviceImageContainer = UIView()
-    let serviceImageView = UIImageView()
-    let serviceName = UILabel()
+    private weak var mainView: UIView!
+    private weak var serviceImageContainer: UIView!
+    private weak var serviceImageView: UIImageView!
+    private weak var serviceNameLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        addSubview(mainView)
-        addSubview(serviceImageContainer)
-        serviceImageContainer.addSubview(serviceImageView)
-        addSubview(serviceName)
-        
         setupViews()
         setupConstraints()
     }
     
-    func setupViews() {
+    private func setupViews() {
         setupMainView()
         setupServiceImageContainer()
         setupServiceImageView()
-        setupServiceName()
+        setupServiceNameLabel()
     }
     
-    func setupMainView() {
+    private func setupMainView() {
+        let mainView = UIView()
         contentView.backgroundColor = .clear
         mainView.backgroundColor = .clear
         mainView.layer.cornerRadius = 12
+        self.mainView = mainView
+        addSubview(self.mainView)
     }
     
-    func setupServiceImageContainer() {
+    private func setupServiceImageContainer() {
+        let serviceImageContainer = UIView()
         serviceImageContainer.backgroundColor = UIColor(named: "BackgroundGray")
         serviceImageContainer.layer.cornerRadius = 12
+        self.serviceImageContainer = serviceImageContainer
+        addSubview(self.serviceImageContainer)
     }
     
-    func setupServiceImageView() {
+    private func setupServiceImageView() {
+        let serviceImageView = UIImageView()
         serviceImageView.contentMode = .scaleAspectFit
+        self.serviceImageView = serviceImageView
+        serviceImageContainer.addSubview(self.serviceImageView)
     }
     
-    func setupServiceName() {
-        serviceName.textColor = UIColor(named: "DefaultGray")
+    private func setupServiceNameLabel() {
+        let serviceNameLabel = UILabel()
+        serviceNameLabel.textColor = UIColor(named: "DefaultGray")
         
         if UIDevice.modelName == "iPhone SE" {
-            serviceName.font = UIFont.boldSystemFont(ofSize: 7)
+            serviceNameLabel.font = UIFont.boldSystemFont(ofSize: 7)
         } else {
-            serviceName.font = UIFont.boldSystemFont(ofSize: 10)
+            serviceNameLabel.font = UIFont.boldSystemFont(ofSize: 10)
         }
         
-        serviceName.numberOfLines = 0
-        serviceName.textAlignment = .center
-        serviceName.lineBreakMode = .byWordWrapping
+        serviceNameLabel.numberOfLines = 0
+        serviceNameLabel.textAlignment = .center
+        serviceNameLabel.lineBreakMode = .byWordWrapping
+        self.serviceNameLabel = serviceNameLabel
+        addSubview(self.serviceNameLabel)
     }
     
     //MARK: Snapkit
     
-    func setupConstraints() {
+    private func setupConstraints() {
         
         mainView.snp.makeConstraints {
             $0.top.equalToSuperview()
@@ -88,7 +94,7 @@ class ServiceCollectionViewCell: UICollectionViewCell {
             $0.height.equalTo(20)
         }
         
-        serviceName.snp.makeConstraints {
+        serviceNameLabel.snp.makeConstraints {
             $0.centerX.equalTo(mainView.snp.centerX)
             $0.top.equalTo(serviceImageContainer.snp.bottom).offset(6)
             $0.left.equalTo(mainView.snp.left).offset(15)
@@ -98,7 +104,7 @@ class ServiceCollectionViewCell: UICollectionViewCell {
     
     func fillInServiceCell(service: Service?) {
         serviceImageView.image = service?.image
-        serviceName.text = service?.name
+        serviceNameLabel.text = service?.name
     }
     
     

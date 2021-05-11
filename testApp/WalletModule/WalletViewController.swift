@@ -21,46 +21,30 @@ class WalletViewController: UIViewController {
     
     //MARK: UIViews
     
-    let scrollView = UIScrollView()
+    private weak var scrollView: UIScrollView!
     
-    let logoImageView = UIImageView()
-    let companyLabel = UILabel()
-    let menuImageView = UIImageView()
-    let accountOverviewLabel = UILabel()
-    let currentBalanceView = CurrentBalanceView()
-    let sendMoneyLabel = UILabel()
-    let scanImageView = UIImageView()
-    let servicesLabel = UILabel()
-    let settingImageView = UIImageView()
+    private weak var logoImageView: UIImageView!
+    private weak var companyLabel: UILabel!
+    private weak var menuImageView: UIImageView!
+    private weak var accountOverviewLabel: UILabel!
+    private weak var currentBalanceView: CurrentBalanceView!
+    private weak var sendMoneyLabel: UILabel!
+    private weak var scanImageView: UIImageView!
+    private weak var servicesLabel: UILabel!
+    private weak var settingImageView: UIImageView!
     
-    let personsCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
-    let servicesCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+    private weak var personsCollectionView: UICollectionView!
+    private weak var servicesCollectionView: UICollectionView!
     
-    var personArray: [Person] = []
-    var serviceArray: [Service] = []
+    private var personArray: [Person] = []
+    private var serviceArray: [Service] = []
     
-    var isMenuOpen = false
+    private var isMenuOpen = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         walletPresenter.attachView(self)
-        
-        view.addSubview(scrollView)
-
-        addTap()
-        
-        scrollView.addSubview(logoImageView)
-        scrollView.addSubview(companyLabel)
-        scrollView.addSubview(menuImageView)
-        scrollView.addSubview(accountOverviewLabel)
-        scrollView.addSubview(currentBalanceView)
-        scrollView.addSubview(sendMoneyLabel)
-        scrollView.addSubview(scanImageView)
-        scrollView.addSubview(personsCollectionView)
-        scrollView.addSubview(servicesLabel)
-        scrollView.addSubview(settingImageView)
-        scrollView.addSubview(servicesCollectionView)
         
         fillInPersons()
         fillInServices()
@@ -70,7 +54,7 @@ class WalletViewController: UIViewController {
         
     }
     
-    func addTap() {
+    private func addTap() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(onViewTapped))
         self.scrollView.addGestureRecognizer(tap)
     }
@@ -82,14 +66,14 @@ class WalletViewController: UIViewController {
         }
     }
     
-    func fillInPersons() {
+    private func fillInPersons() {
         let mike = Person(name: "Mike", image: UIImage(named: "Mike"))
         let joshpeh = Person(name: "Joshpeh", image: UIImage(named: "Joshpeh"))
         personArray.append(mike)
         personArray.append(joshpeh)
     }
     
-    func fillInServices() {
+    private func fillInServices() {
         
         // Потому что сервисы не реализованы
         
@@ -112,7 +96,7 @@ class WalletViewController: UIViewController {
         
     }
     
-    func setupViews() {
+    private func setupViews() {
         setupScrollView()
         setupMainView()
         setupLogoImageView()
@@ -128,36 +112,50 @@ class WalletViewController: UIViewController {
         setupSettingImageView()
     }
     
-    func setupScrollView() {
+    private func setupScrollView() {
+        let scrollView = UIScrollView()
         scrollView.isPagingEnabled = true
         scrollView.showsVerticalScrollIndicator = false
         scrollView.bounces = true
         scrollView.alwaysBounceVertical = true
         scrollView.contentSize = self.view.frame.size
         view.backgroundColor = .clear
+        self.scrollView = scrollView
+        view.addSubview(self.scrollView)
+        addTap()
+        
     }
     
-    func setupMainView() {
+    private func setupMainView() {
         scrollView.backgroundColor = UIColor(named: "DefaultBackground")
     }
     
-    func setupLogoImageView() {
+    private func setupLogoImageView() {
+        let logoImageView = UIImageView()
         logoImageView.image = UIImage(named: "MainLogo")
         logoImageView.contentMode = .scaleToFill
+        self.logoImageView = logoImageView
+        scrollView.addSubview(self.logoImageView)
     }
     
-    func setupCompanyLabel() {
+    private func setupCompanyLabel() {
+        let companyLabel = UILabel()
         companyLabel.text = "eWalle"
         companyLabel.font = UIFont.systemFont(ofSize: 28)
         companyLabel.textColor = UIColor(named: "DefaultText")
+        self.companyLabel = companyLabel
+        scrollView.addSubview(self.companyLabel)
     }
     
-    func setupMenuImageView() {
+    private func setupMenuImageView() {
+        let menuImageView = UIImageView()
         menuImageView.image = UIImage(named: "Union")
         menuImageView.contentMode = .scaleToFill
         let menuTap = UITapGestureRecognizer(target: self, action: #selector(menuTapped))
         menuImageView.addGestureRecognizer(menuTap)
         menuImageView.isUserInteractionEnabled = true
+        self.menuImageView = menuImageView
+        scrollView.addSubview(self.menuImageView)
     }
     
     @objc func menuTapped() {
@@ -165,31 +163,42 @@ class WalletViewController: UIViewController {
         delegate?.toggleMenu()
     }
     
-    func setupAccountOverviewLabel() {
+    private func setupAccountOverviewLabel() {
+        let accountOverviewLabel = UILabel()
         accountOverviewLabel.text = "Account Overview"
         accountOverviewLabel.textColor = UIColor(named: "HeaderColor")
         accountOverviewLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        self.accountOverviewLabel = accountOverviewLabel
+        scrollView.addSubview(self.accountOverviewLabel)
     }
     
-    func setupCurrentBalanceView() {
+    private func setupCurrentBalanceView() {
+        let currentBalanceView = CurrentBalanceView()
         currentBalanceView.backgroundColor = UIColor(named: "BackgroundGray")
         currentBalanceView.layer.cornerRadius = 10
-        currentBalanceView.balanceValueLabel.text = "20,600"
-        currentBalanceView.currentBalanceLabel.text = "Current balance"
+        self.currentBalanceView = currentBalanceView
+        scrollView.addSubview(self.currentBalanceView)
     }
     
-    func setupSendMoneyLabel() {
+    private func setupSendMoneyLabel() {
+        let sendMoneyLabel = UILabel()
         sendMoneyLabel.text = "Send Money"
         sendMoneyLabel.textColor = UIColor(named: "HeaderColor")
         sendMoneyLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        self.sendMoneyLabel = sendMoneyLabel
+        scrollView.addSubview(self.sendMoneyLabel)
     }
     
-    func setupScanImageView() {
+    private func setupScanImageView() {
+        let scanImageView = UIImageView()
         scanImageView.image = UIImage(named: "Scan")
         scanImageView.contentMode = .scaleToFill
+        self.scanImageView = scanImageView
+        scrollView.addSubview(self.scanImageView)
     }
     
-    func setupPersonsCollectionView() {
+    private func setupPersonsCollectionView() {
+        let personsCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
         personsCollectionView.delegate = self
         personsCollectionView.dataSource = self
         personsCollectionView.isPagingEnabled = true
@@ -198,27 +207,36 @@ class WalletViewController: UIViewController {
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        self.personsCollectionView.collectionViewLayout = layout
+        personsCollectionView.collectionViewLayout = layout
         
         
         let personCollectionViewCell = UINib(nibName: "PersonCollectionViewCell",
                                       bundle: nil)
         
-        self.personsCollectionView.register(personCollectionViewCell, forCellWithReuseIdentifier: "PersonCollectionViewCell")
+        personsCollectionView.register(personCollectionViewCell, forCellWithReuseIdentifier: "PersonCollectionViewCell")
+        self.personsCollectionView = personsCollectionView
+        scrollView.addSubview(self.personsCollectionView)
     }
     
-    func setupServicesLabel() {
+    private func setupServicesLabel() {
+        let servicesLabel = UILabel()
         servicesLabel.text = "Services"
         servicesLabel.textColor = UIColor(named: "HeaderColor")
         servicesLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        self.servicesLabel = servicesLabel
+        scrollView.addSubview(self.servicesLabel)
     }
     
-    func setupSettingImageView() {
+    private func setupSettingImageView() {
+        let settingImageView = UIImageView()
         settingImageView.image = UIImage(named: "Setting")
         settingImageView.contentMode = .scaleToFill
+        self.settingImageView = settingImageView
+        scrollView.addSubview(self.settingImageView)
     }
     
-    func setupServicesCollectionView() {
+    private func setupServicesCollectionView() {
+        let servicesCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
         servicesCollectionView.delegate = self
         servicesCollectionView.dataSource = self
         servicesCollectionView.isPagingEnabled = false
@@ -227,18 +245,20 @@ class WalletViewController: UIViewController {
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        self.servicesCollectionView.collectionViewLayout = layout
+        servicesCollectionView.collectionViewLayout = layout
         
         
         let serviceCollectionViewCell = UINib(nibName: "ServiceCollectionViewCell",
                                       bundle: nil)
         
-        self.servicesCollectionView.register(serviceCollectionViewCell, forCellWithReuseIdentifier: "ServiceCollectionViewCell")
+        servicesCollectionView.register(serviceCollectionViewCell, forCellWithReuseIdentifier: "ServiceCollectionViewCell")
+        self.servicesCollectionView = servicesCollectionView
+        scrollView.addSubview(self.servicesCollectionView)
     }
     
     //MARK: Snapkit
     
-    func setupConstraints() {
+    private func setupConstraints() {
         
         scrollView.snp.makeConstraints {
             $0.left.equalToSuperview()

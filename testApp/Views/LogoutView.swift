@@ -13,8 +13,8 @@ class LogoutView: UIView {
     
     // MARK: UIViews
     
-    let logoutImageView = UIImageView()
-    let logoutLabel = UILabel()
+    private weak var logoutImageView: UIImageView!
+    private weak var logoutLabel: UILabel!
     
     override init(frame: CGRect){
         super.init(frame: frame)
@@ -25,34 +25,37 @@ class LogoutView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func initialSetup(){
-        addSubview(logoutImageView)
-        addSubview(logoutLabel)
-        
+    private func initialSetup(){
         setupMainView()
         setupLogoutImageView()
         setupLogoutLabel()
         setupConstraints()
     }
     
-    func setupMainView() {
+    private func setupMainView() {
         backgroundColor = .clear
     }
     
-    func setupLogoutImageView() {
+    private func setupLogoutImageView() {
+        let logoutImageView = UIImageView()
         logoutImageView.image = UIImage(named: "Power")
         logoutImageView.contentMode = .scaleAspectFill
+        self.logoutImageView = logoutImageView
+        addSubview(self.logoutImageView)
     }
     
-    func setupLogoutLabel() {
+    private func setupLogoutLabel() {
+        let logoutLabel = UILabel()
         logoutLabel.font = UIFont.boldSystemFont(ofSize: 16)
         logoutLabel.textColor = UIColor(named: "DefaultText")
         logoutLabel.text = "Logout"
+        self.logoutLabel = logoutLabel
+        addSubview(self.logoutLabel)
     }
     
     //MARK: Snapkit
     
-    func setupConstraints(){
+    private func setupConstraints(){
         
         logoutImageView.snp.makeConstraints{
             $0.left.equalToSuperview()
